@@ -9,8 +9,8 @@ echo -e 'brcmfmac' >> /etc/modules
 
 cat <<EOF > /boot/wpa_supplicant.conf
 network={
- ssid="SSID"
- psk="PASSWORD"
+  ssid="SSID"
+  psk="PSK"
 }
 
 ap_scan=1

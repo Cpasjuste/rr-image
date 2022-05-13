@@ -2,6 +2,9 @@
 
 set -xe
 
+# TODO
+
+: '
 apk add dosfstools e2fsprogs-extra parted
 
 cat <<EOF > /usr/bin/first-boot
@@ -35,3 +38,4 @@ EOF
 
 chmod +x /etc/init.d/first-boot /usr/bin/first-boot
 rc-update add first-boot
+'
