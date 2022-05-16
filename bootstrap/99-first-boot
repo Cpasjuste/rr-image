@@ -2,6 +2,9 @@
 
 set -xe
 
+# include config file
+source $(dirname "$0")/settings.cfg
+
 # TODO
 
 : '

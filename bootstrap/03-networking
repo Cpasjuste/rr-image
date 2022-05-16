@@ -2,12 +2,15 @@
 
 set -xe
 
+# include config file
+source $(dirname "$0")/settings.cfg
+
 apk add wpa_supplicant wireless-tools wireless-regdb iw
 sed -i 's/wpa_supplicant_args=\"/wpa_supplicant_args=\" -u -Dwext,nl80211/' /etc/conf.d/wpa_supplicant
 
 echo -e 'brcmfmac' >> /etc/modules
 
-cat <<EOF > /boot/wpa_supplicant.conf
+cat <<EOF > /etc/wpa_supplicant/wpa_supplicant.conf
 network={
   ssid="SSID"
   psk="PSK"
@@ -18,8 +21,8 @@ autoscan=periodic:10
 disable_scan_offload=1
 EOF
 
-ln -s /boot/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
-
+# TODO: enable wifi
+mkdir -p /etc/network
 cat <<EOF > /etc/network/interfaces
 auto lo
 iface lo inet loopback
@@ -27,9 +30,9 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet dhcp
 
-auto wlan0
-iface wlan0 inet dhcp
-  up iwconfig wlan0 power off
+#auto wlan0
+#iface wlan0 inet dhcp
+#  up iwconfig wlan0 power off
 
 hostname $TARGET_HOSTNAME
 EOF

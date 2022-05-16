@@ -2,6 +2,9 @@
 
 set -xe
 
+# include config file
+source $(dirname "$0")/settings.cfg
+
 apk add --update linux-rpi linux-rpi4 raspberrypi-bootloader zram-init openrc
 rc-update add zram-init boot
 
@@ -11,15 +14,23 @@ cat <<EOF > /boot/config.txt
 [pi3]
 kernel=vmlinuz-rpi
 initramfs initramfs-rpi
+dtoverlay=vc4-kms-v3d
 [pi3+]
 kernel=vmlinuz-rpi
 initramfs initramfs-rpi
+dtoverlay=vc4-kms-v3d
 [pi4]
 enable_gic=1
 kernel=vmlinuz-rpi4
 initramfs initramfs-rpi4
+dtoverlay=vc4-fkms-v3d
+
 [all]
 arm_64bit=1
+gpu_mem_256=128
+gpu_mem_512=192
+gpu_mem_1024=448
+disable_overscan=1
 include usercfg.txt
 EOF
 

@@ -36,12 +36,12 @@ function cleanup {
 # set trap
 trap cleanup EXIT
 
-mkdir -p dist /dist
+mkdir -p dist
 
-OUTPUT_IMG="/dist/target.img"
+OUTPUT_IMG="dist/target.img"
 
 rm -Rf "$OUTPUT_IMG"
-truncate -s 512M "$OUTPUT_IMG"
+truncate -s 1G "$OUTPUT_IMG"
 
 fdisk -H 255 -S 63 "$OUTPUT_IMG" <<-EOF
 o
@@ -92,7 +92,7 @@ rm  /alpine/env.sh /alpine/etc/resolv.conf /alpine/enter-chroot /alpine/destroy
 find /alpine -iname "*-" -delete
 find /alpine -iname "*~" -delete
 
-gzip -c "$OUTPUT_IMG" > "dist/alpine-rpi-$ALPINE_BRANCH-$ARCH.img.gz"
+#gzip -c "$OUTPUT_IMG" > "dist/alpine-rpi-$ALPINE_BRANCH-$ARCH.img.gz"
 chmod -R 777 dist
 
 einfo 'DONE.'

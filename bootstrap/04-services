@@ -2,6 +2,9 @@
 
 set -xe
 
+# include config file
+source $(dirname "$0")/settings.cfg
+
 apk add eudev openssh haveged
 
 for service in devfs dmesg; do
@@ -12,7 +15,9 @@ for service in modules sysctl hostname bootmisc swclock syslog swap; do
 	rc-update add $service boot
 done
 
-for service in dbus haveged sshd chronyd local networking avahi-daemon bluetooth wpa_supplicant wpa_cli; do
+# TODO: enable wifi
+# wpa_supplicant wpa_cli
+for service in dbus haveged sshd chronyd local networking avahi-daemon bluetooth; do
 	rc-update add $service default
 done
 
@@ -21,3 +26,7 @@ setup-udev -n
 for service in mount-ro killprocs savecache; do
 	rc-update add $service shutdown
 done
+
+# enable ssh as root
+echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
